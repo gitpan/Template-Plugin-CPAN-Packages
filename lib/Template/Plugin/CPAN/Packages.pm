@@ -5,7 +5,7 @@ use warnings;
 use Parse::CPAN::Packages;
 
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 use base 'Template::Plugin';
@@ -188,7 +188,7 @@ please use the C<templateplugincpanpackages> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.01 of L<Template::Plugin::CPAN::Packages>.
+This document describes version 0.02 of L<Template::Plugin::CPAN::Packages>.
 
 =head1 BUGS AND LIMITATIONS
 

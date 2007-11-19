@@ -19,7 +19,8 @@ no_index:
     - inc
     - t
 requires: 
+  Parse::CPAN::Packages: 0
   Pod::Generated: 0
   Template: 0
   perl: 5.6.0
-version: 0.01
+version: 0.02

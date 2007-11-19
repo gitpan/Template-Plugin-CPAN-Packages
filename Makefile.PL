@@ -5,6 +5,7 @@ name 'Template-Plugin-CPAN-Packages';
 all_from 'lib/Template/Plugin/CPAN/Packages.pm';
 perl_version '5.006';
 
+requires 'Parse::CPAN::Packages';
 requires 'Pod::Generated';
 requires 'Template';
 
