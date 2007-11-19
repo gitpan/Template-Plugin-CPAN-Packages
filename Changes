@@ -1,0 +1,10 @@
+---
+global:
+  name: Template-Plugin-CPAN-Packages
+releases:
+  - author: 'Marcel Gruenauer <marcel@cpan.org>'
+    changes:
+      - original version
+    date: 2007-11-19T08:13:59Z
+    tags: []
+    version: 0.01
