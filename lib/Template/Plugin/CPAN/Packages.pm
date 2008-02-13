@@ -5,7 +5,7 @@ use warnings;
 use Parse::CPAN::Packages;
 
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 use base 'Template::Plugin';
@@ -25,10 +25,31 @@ sub new {
 sub get_primary_package {
     my ($self, $dist) = @_;
 
+    # Only take those packages whose names start with the equivalent of the
+    # dist, i.e., for Foo-Bar, only use Foo::Bar and packages below that.
+
+    (my $base_pkg = $dist->dist) =~ s/-/::/g;
+
+    my @packages = @{ $dist->packages || [] };
+
+    unless (@packages) {
+        warn sprintf "dist [%s] doesn't contain any packages?\n", $dist->dist;
+        return;
+    }
+
     my @dist_packages =
         sort { length($a) <=> length($b) }
+        grep { index($_, $base_pkg) == 0 }
         map  { $_->package }
-        @{ $dist->packages || [] };
+        @packages;
+
+    unless (@dist_packages) {
+        my $other_package = $packages[0]->package;
+        warn sprintf
+            "couldn't get primary package for dist [%s], using [%s]\n",
+            $dist->dist, $other_package;
+        return $other_package;
+    }
 
     $dist_packages[0];
 }
@@ -95,7 +116,7 @@ __END__
 
 =head1 NAME
 
-Template::Plugin::CPAN::Packages - FIXME
+Template::Plugin::CPAN::Packages - Template plugin to help generate CPAN bundles
 
 =head1 SYNOPSIS
 
@@ -188,7 +209,7 @@ please use the C<templateplugincpanpackages> tag.
 
 =head1 VERSION 
                    
-This document describes version 0.02 of L<Template::Plugin::CPAN::Packages>.
+This document describes version 0.03 of L<Template::Plugin::CPAN::Packages>.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -214,7 +235,7 @@ Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2007 by Marcel GrE<uuml>nauer
+Copyright 2007-2008 by Marcel GrE<uuml>nauer
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
